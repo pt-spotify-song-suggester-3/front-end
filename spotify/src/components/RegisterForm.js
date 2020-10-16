@@ -56,7 +56,10 @@ function Registration(){
         e.preventDefault();
         if(user.terms){
             axiosWithAuth()
-            .post("api/auth/register", user)
+            .post("api/auth/register", {
+                username: user.username,
+                password: user.password
+            })
             .then(res => {
                 console.log(res)
                 localStorage.setItem('token', res.data.token)

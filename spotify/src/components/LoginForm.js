@@ -24,7 +24,10 @@ function LoginForm(){
     const submitHandler = (e) => {
         e.preventDefault();
         axiosWithAuth()
-        .post("api/auth/login", login)
+        .post("api/auth/login", {
+            username: login.username,
+            password: login.password
+        })
         .then(res => {
             console.log(res)
             localStorage.setItem('token', res.data.token)
