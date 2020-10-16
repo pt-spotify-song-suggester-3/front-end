@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Container, Jumbotron, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
+import {axiosWithAuth} from './utils/axiosWithAuth'
+
 
 function LoginForm(){
     const [login, setLogin] = useState({
         username: "",
         password: "",
     });
+
     
     const history = useHistory();
 
@@ -20,6 +23,12 @@ function LoginForm(){
 
     const submitHandler = (e) => {
         e.preventDefault();
+        axiosWithAuth()
+        .post("api/auth/login", login)
+        .then(res => {
+            console.log(res)
+            localStorage.setItem('token', res.data.token)
+        })
     }
 
     return (
