@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Jumbotron, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
+import {axiosWithAuth} from './utils/axiosWithAuth'
 
 function Registration(){
     const [user, setUser] = useState({
@@ -53,6 +54,18 @@ function Registration(){
 
     const submitHandler = (e) => {
         e.preventDefault();
+        if(user.terms){
+            axiosWithAuth()
+            .post("api/auth/register", user)
+            .then(res => {
+                console.log(res)
+                localStorage.setItem('token', res.data.token)
+            })
+            .catch(error => {
+                console.log("Error upon registering", error)
+            })
+        }
+        
     }
 
     useEffect(() => {
@@ -94,5 +107,7 @@ function Registration(){
         </Container>
     )
 }
+
+
 
 export default Registration;
