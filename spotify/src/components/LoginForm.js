@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Container, Jumbotron, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import {axiosWithAuth} from './utils/axiosWithAuth'
+import {connect} from 'react-redux'
+import {userCredentials} from './store/actions'
 
-
-function LoginForm(){
+//unable to login
+function LoginForm({userCredentials}){
     const [login, setLogin] = useState({
         username: "",
         password: "",
@@ -24,14 +26,15 @@ function LoginForm(){
     const submitHandler = (e) => {
         e.preventDefault();
         axiosWithAuth()
-        .post("api/auth/login", {
-            username: login.username,
-            password: login.password
-        })
+        .post("api/user/login", login)
         .then(res => {
             console.log(res)
+            userCredentials(res.data)
             localStorage.setItem('token', res.data.token)
             history.push('/private-route')
+        })
+        .catch(error => {
+            console.log("ERROR POSTING LOGIN", error)
         })
     }
 
@@ -60,4 +63,14 @@ function LoginForm(){
     )
 }
 
-export default LoginForm
+const mapStateToProps = state => {
+    
+    return {
+        username: state.username,
+        password: state.password
+    }
+}
+export default connect (
+    mapStateToProps,
+    {userCredentials}
+  )  (LoginForm)

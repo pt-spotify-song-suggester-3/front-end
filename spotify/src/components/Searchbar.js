@@ -3,6 +3,8 @@ import { Container, Jumbotron, Row, Col, Button, Form, FormGroup, Label, Input }
 import SongCard from "./SongCard";
 import axios from "axios";
 import './Searchbar.css'
+import {connect} from 'react-redux'
+
 
 function Searchbar(){
 
@@ -109,8 +111,14 @@ function Searchbar(){
             </Container>
     )
 }
-
-export default Searchbar
+const mapStateToProps = state => {
+    return {
+        results: state.results
+    }
+}
+export default connect (
+    mapStateToProps
+) (Searchbar);
 
 //artist then song title	
 // import React, { useState, useEffect } from "react";
