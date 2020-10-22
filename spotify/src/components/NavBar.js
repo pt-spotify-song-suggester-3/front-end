@@ -21,7 +21,7 @@ function NavBar(){
 					<NavbarBrand style={{color:"lime"}} >Spotify Song Suggester PRO</NavbarBrand>
 					<Container className="themed-container" fluid="lg">
 						<NavItem style={{color:"white"}}className="">
-							<NavLink  href="/">Home</NavLink>
+							<NavLink  href="https://marketing-delta.vercel.app/">Home</NavLink>
 						</NavItem>
 						<NavItem style={{color:"white"}}className="">
 							<NavLink  href="/search">Search</NavLink>
