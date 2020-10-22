@@ -6,7 +6,7 @@ import NavBar from './components/NavBar';
 import Searchbar from './components/Searchbar'
 import PrivateRoute from './components/utils/PrivateRoute'
 import UserPage  from './components/UserPage'
-import EditUser from './/components/EditUser'
+
 
 function App() {
   return (
@@ -16,7 +16,6 @@ function App() {
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/register" component={Registration} />
         <Route exact path="/search" component={Searchbar}/>
-        <Route exact path="/edit-user" component={EditUser}/>
         <PrivateRoute path="/private-route" component={UserPage}/>
       </Switch>
     </div>
