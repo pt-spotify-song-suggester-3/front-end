@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Navbar, Nav, NavItem, NavLink, NavbarBrand } from "reactstrap";
+import { Container, Navbar, Nav, NavItem, NavLink, NavbarBrand, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { useHistory } from 'react-router-dom'
 function NavBar(){
 
@@ -23,6 +23,29 @@ function NavBar(){
 						<NavItem style={{color:"white"}}className="">
 							<NavLink  href="/search">Search</NavLink>
 						</NavItem>
+						<UncontrolledDropdown nav inNavbar>
+							<DropdownToggle nav caret>
+								Dashboards
+							</DropdownToggle>
+							<DropdownMenu right>
+								<DropdownItem>
+									<NavLink  href="/featurecard">
+										Feature Cards
+									</NavLink>
+								</DropdownItem>
+								<DropdownItem>
+									<NavLink  href="/comparecard">
+										Compare Cards
+									</NavLink>
+								</DropdownItem>
+									<DropdownItem divider />
+								<DropdownItem>
+									More to come!
+								</DropdownItem>
+							</DropdownMenu>
+						</UncontrolledDropdown>
+
+
 						<NavItem style={{color:"white"}}className="">
 							<NavLink  href="/login">Log In</NavLink>
 						</NavItem>
