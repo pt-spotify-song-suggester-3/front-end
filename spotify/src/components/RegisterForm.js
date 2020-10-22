@@ -3,6 +3,9 @@ import { Container, Jumbotron, Col, Form, FormGroup, Label, Input, Button } from
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import {axiosWithAuth} from './utils/axiosWithAuth'
+import {connect} from 'react-redux'
+import {submitRegistration} from './store/actions'
+
 
 function Registration(){
     const [user, setUser] = useState({
@@ -23,7 +26,7 @@ function Registration(){
 
     const schema = yup.object().shape({
         username: yup.string().min(5, "Username must be at least 5 characters.").required("Username is required."),
-        password: yup.string().min(8, "Password must be at least 8 characters long.").required("Password is required."),
+        password: yup.string().min(5, "Password must be at least 5 characters long.").required("Password is required."),
         terms: yup.boolean().oneOf([true])
     });
 
@@ -50,13 +53,14 @@ function Registration(){
             ...user,
             [e.target.name]: e.target.name === "terms" ? e.target.checked : e.target.value
         })
+
     }
 
     const submitHandler = (e) => {
         e.preventDefault();
         if(user.terms){
             axiosWithAuth()
-            .post("api/auth/register", user)
+            .post("api/user/register", user)
             .then(res => {
                 console.log(res)
                 localStorage.setItem('token', res.data.token)
@@ -108,6 +112,14 @@ function Registration(){
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        username: state.username,
+        password: state.password
+    }
+}
 
-
-export default Registration;
+export default connect (
+    mapStateToProps,
+    {submitRegistration}
+) (Registration);
