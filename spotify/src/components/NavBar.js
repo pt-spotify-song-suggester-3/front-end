@@ -21,6 +21,9 @@ function NavBar(){
 					<NavbarBrand style={{color:"lime"}} >Spotify Song Suggester PRO</NavbarBrand>
 					<Container className="themed-container" fluid="lg">
 						<NavItem style={{color:"white"}}className="">
+							<NavLink  href="/">Home</NavLink>
+						</NavItem>
+						<NavItem style={{color:"white"}}className="">
 							<NavLink  href="/search">Search</NavLink>
 						</NavItem>
 						<NavItem style={{color:"white"}}className="">

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Container, Jumbotron, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
-import {axiosWithAuth} from './utils/axiosWithAuth'
 import {connect} from 'react-redux'
 import {submitRegistration} from './store/actions'
+import axios from 'axios'
 
 
 function Registration(){
@@ -12,7 +12,10 @@ function Registration(){
         username: '',
         password: '',
         terms: false
+        
     });
+
+    console.log(user)
 
     const [errors, setErrors] = useState({
         username: '',
@@ -59,11 +62,16 @@ function Registration(){
     const submitHandler = (e) => {
         e.preventDefault();
         if(user.terms){
-            axiosWithAuth()
-            .post("api/user/register", user)
+            axios
+            .post("https://unit4-spotifysongsuggester.herokuapp.com/api/user/register", {
+                username: user.username,
+                password: user.password
+            })
             .then(res => {
                 console.log(res)
                 localStorage.setItem('token', res.data.token)
+                localStorage.setItem("ID", res.data.id);
+				history.push("/login")
             })
             .catch(error => {
                 console.log("Error upon registering", error)

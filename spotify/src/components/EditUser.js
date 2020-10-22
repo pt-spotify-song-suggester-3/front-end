@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import {Container, Jumbotron, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { connect } from 'react-redux';
-import { update, userCreds, removeUser } from '../actions/index'
+import { update, removeUser } from './store/actions'
 import { useHistory } from "react-router-dom"
-import axiosWithAuth from "../util/axiosWithAuth";
+import {axiosWithAuth} from './utils/axiosWithAuth';
 
-function EditUser({ userCreds, removeUser, update}){
+function EditUser({ removeUser, update}){
 
     const history = useHistory()
 
-    // const id = localStorage.getItem('ID')
-
-    // console.log(userData)
-
     const [ userUpdate, setuserUpdate ] = useState({
         username:"",
-        password: "",
+        password:'',
+        id:''
     })
+
+    console.log(userUpdate)
     
     const updateUser = (e) => {
         console.log('userUpdate', userUpdate)
@@ -45,17 +44,17 @@ function EditUser({ userCreds, removeUser, update}){
 
     useEffect(() => {
         let user_id = localStorage.getItem('ID');
-        axiosWithAuth().get(`/users`)
+        axiosWithAuth().get(`api/user/${user_id}`)
             .then(res=>{
-                let users_arr = res.data.users
-                let editable_user = users_arr.filter((user)=> user.id == user_id)
-                setuserUpdate(editable_user[0])
+                console.log("Success on Edit User", res)
+                let users_arr = res.data
+                setuserUpdate(users_arr)
+                
             })
             .catch(err=>console.log(err))
     },[])
+  
 
-
-    
     return(
         <Container>
 			<Jumbotron>
@@ -64,20 +63,8 @@ function EditUser({ userCreds, removeUser, update}){
 						<Row>
 							<Col sm="4">
 								<FormGroup>
-									<Label for="email"/>
-									<Input type="email" name="email" value={userUpdate.email} id="email" placeholder="Email"  onChange={changeHandler} />
-								</FormGroup>
-							</Col>
-							<Col sm="4">
-								<FormGroup>
-									<Label for="firstName" />
-									<Input type="text" name="first_name" value={userUpdate.first_name} id="firstName" placeholder="First Name"  onChange={changeHandler} />
-								</FormGroup>
-							</Col>
-							<Col sm="4">
-								<FormGroup>
-									<Label for="lastName" />
-									<Input type="text" name="last_name" value={userUpdate.last_name}id="lastName" placeholder="Last Name"  onChange={changeHandler} />
+									<Label for="username"/>
+									<Input type="text" name="username" value={userUpdate.username} id="username" placeholder="Username"  onChange={changeHandler} />
 								</FormGroup>
 							</Col>
 						</Row>
@@ -112,5 +99,5 @@ const mapStateToProps = state => {
 
 export default connect (
     mapStateToProps,
-	{ update, userCreds, removeUser }
+	{ update, removeUser }
 ) ( EditUser );
