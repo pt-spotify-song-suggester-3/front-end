@@ -8,7 +8,8 @@ const placeholder = require("../placeholder.svg");
 function UserCard(props){
 
 	const [ userCard, setUserCard ] = useState({})
-	
+	console.log(userCard)
+
 	const { push } = useHistory()
 
 	const openEditLink = () => {
@@ -28,13 +29,12 @@ function UserCard(props){
 	useEffect(() => {
         let user_id = localStorage.getItem('ID');
 		axiosWithAuth()
-			.get(`/users`)
+			.get(`api/user/${user_id}`)
             .then(res=>{
-                let users_arr = res.data.users
-                let editable_user = users_arr.filter((user)=> user.id == user_id)
-                setUserCard(editable_user[0])
+				console.log("Success on Profile Card", res)
+                setUserCard(res.data.username)
             })
-            .catch(err=>console.log(err))
+            .catch(err=>console.log("Error on Profile Card",err))
     },[])
 
 
@@ -44,7 +44,7 @@ function UserCard(props){
 	    		<Card>
 					<div>
 						<CardImg src={placeholder}/>
-						<CardTitle>{`${userCard.first_name} ${userCard.last_name}`}</CardTitle>
+						<CardTitle>{`${userCard} `}</CardTitle>
 						
 						<Button type="button" id="toggler" block>
 							<svg className="bi bi-list" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

@@ -23,7 +23,7 @@ export const submitRegistration = user => dispatch => {
 export const userCredentials = () => dispatch => {
     let user_id = localStorage.getItem('ID')
 
-    axiosWithAuth().get('api/users/:id')
+    axiosWithAuth().get(`api/user/${user_id}`)
     .then(res => {
         console.log("SUCESS",res)
         dispatch({type: USER_CREDENTIALS, payload:res})
@@ -32,15 +32,12 @@ export const userCredentials = () => dispatch => {
         console.log("ERROR", error)
         dispatch({type: USER_CREDENTIALS_FAIL})
     })
-
-
-
 }
 
 export const removeUser = (id) => dispatch => {
     dispatch({type: REMOVE_USER})
     axiosWithAuth()
-    .delete(`api/users/${id}`)
+    .delete(`api/user/${id}`)
     .then(res => {
         console.log("User Deleted", res)
     })
@@ -51,7 +48,7 @@ export const removeUser = (id) => dispatch => {
 
 export const update = (user) => dispatch => {
     axiosWithAuth()
-    .put(`api/users/${user.id}`, user)
+    .put(`api/user/${user.id}`, user)
     .then(res => {
         console.log("Updated User Successfully", res)
     })
